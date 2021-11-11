@@ -1,14 +1,11 @@
-package org.tretton63.wstest;
+package org.tretton63.wstest.infrastructure;
 
-import org.springframework.cglib.core.Block;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.sql.BatchUpdateException;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.concurrent.BlockingQueue;
 
 @RestController

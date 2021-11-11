@@ -1,4 +1,4 @@
-package org.tretton63.wstest;
+package org.tretton63.wstest.infrastructure;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
