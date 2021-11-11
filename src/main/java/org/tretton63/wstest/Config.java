@@ -4,21 +4,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.module.jsr310.Jsr310Module;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
@@ -31,9 +24,9 @@ import java.net.URI;
 
 @Configuration
 @EnableWebSocket
-@EnableWebSecurity
+// @EnableWebSecurity
 
-public class Config extends WebSecurityConfigurerAdapter implements WebSocketConfigurer {
+public class Config /*extends WebSecurityConfigurerAdapter*/ implements WebSocketConfigurer {
 
     @Value("${aws.secretAccessKey}")
     private String awsSecretKey;
@@ -42,11 +35,11 @@ public class Config extends WebSecurityConfigurerAdapter implements WebSocketCon
     @Value("${wstest.blob-url}")
     private String blobUrl;
 
-
+/*
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
-    }
+        http.cors().disable().csrf().disable().formLogin().disable().;
+    }*/
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
@@ -58,11 +51,18 @@ public class Config extends WebSecurityConfigurerAdapter implements WebSocketCon
     }
 */
 
+/*
 
     @Bean
     protected InMemoryUserDetailsManager inMemoryUserDetailsManager() {
         logger.info("Startin in memory details manager");
         return new InMemoryUserDetailsManager();
+    }
+*/
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper().registerModule(new Jsr310Module());
     }
 
 

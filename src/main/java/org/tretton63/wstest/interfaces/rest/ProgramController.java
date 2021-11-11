@@ -5,13 +5,8 @@ import org.axonframework.queryhandling.QueryGateway;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.annotation.Role;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.tretton63.wstest.appevents.OnHejEvent;
-
-import javax.annotation.security.RolesAllowed;
 
 @RestController
 public class ProgramController {
@@ -34,11 +29,11 @@ public class ProgramController {
 
     }
 
-    @GetMapping("/program/hej")
+   /* @GetMapping("/program/hej")
     @RolesAllowed("USER")
     public void hej(Authentication authentication) {
         logger.info("Principal {}",  authentication.getPrincipal());
         logger.info("Details {}", authentication.getDetails());
         eventPublisher.publishEvent(new OnHejEvent("Hej hej"));
-    }
+    }*/
 }

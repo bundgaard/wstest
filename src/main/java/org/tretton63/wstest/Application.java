@@ -7,15 +7,17 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.tretton63.wstest.entity.OrderItem;
+import org.tretton63.wstest.repository.OrderItemRepository;
 import org.tretton63.wstest.service.FileUploader;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.UUID;
 
 @SpringBootApplication
 public class Application {
@@ -23,11 +25,15 @@ public class Application {
     private static final Logger logger = LoggerFactory.getLogger(Application.class);
 
     private final FileUploader uploader;
-    private final InMemoryUserDetailsManager inMemoryUserDetailsManager;
+   //  private final InMemoryUserDetailsManager inMemoryUserDetailsManager;
+    private final OrderItemRepository orderItemRepository;
 
-    Application(FileUploader uploader, InMemoryUserDetailsManager inMemoryUserDetailsManager) {
+    Application(FileUploader uploader,
+      //          InMemoryUserDetailsManager inMemoryUserDetailsManager,
+                OrderItemRepository orderItemRepository) {
         this.uploader = uploader;
-        this.inMemoryUserDetailsManager = inMemoryUserDetailsManager;
+       // this.inMemoryUserDetailsManager = inMemoryUserDetailsManager;
+        this.orderItemRepository = orderItemRepository;
     }
 
     String readLine(FileChannel inChannel) {
@@ -82,8 +88,17 @@ public class Application {
     public CommandLineRunner commandLineRunner(@Value("${wstest.bucket}") String bucket) {
 
         return args -> {
+            for(int i = 0; i < 10; i++ ){
+                logger.info("Creating order");
+                OrderItem neworder = new OrderItem();
+                neworder.setOrderNumber("order" + UUID.randomUUID().toString().substring(0,10));
+                neworder.setOrderId(UUID.randomUUID());
+                neworder.setCreatedAt(LocalDateTime.now());
+                orderItemRepository.saveAndFlush(neworder);
+
+            }
             uploader.listBucket(bucket).forEach(file -> logger.info("{} ", file));
-            inMemoryUserDetailsManager.createUser(User.withUsername("test").password("{noop}foo").roles("USER").build());
+         //   inMemoryUserDetailsManager.createUser(User.withUsername("test").password("{noop}foo").roles("USER").build());
 
             /*ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2);
             executorService.scheduleWithFixedDelay(() -> {

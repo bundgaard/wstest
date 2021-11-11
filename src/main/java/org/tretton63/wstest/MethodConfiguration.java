@@ -1,10 +1,9 @@
 package org.tretton63.wstest;
 
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.core.annotation.Order;
 
-@Configuration
-@EnableGlobalMethodSecurity(jsr250Enabled = true)
-public class MethodConfiguration extends WebSecurityConfigurerAdapter    {
+@Order(99)
+// @Configuration
+// @EnableGlobalMethodSecurity(jsr250Enabled = true)
+public class MethodConfiguration /*extends WebSecurityConfigurerAdapter*/    {
 }
